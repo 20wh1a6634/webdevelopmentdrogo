@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+    <style>
+        body {
+            background-color: ghostwhite; 
+            margin: 0; /* Remove default margin */
+            font-family: Arial, sans-serif; /* Use a common font for better readability */
+        }
+        .h1 {
+            text-align: center;
+            font-size: 25px;
+            margin-top: 20px;
+        }
+        .input-group label {
+            display: inline-block;
+            width: 200px; /* Set a fixed width for labels */
+             /* Align text to the right for better readability */
+            margin-right: 20px; /* Add margin-right for space between label and input */
+        }
+
+        /* Adjustments for input fields */
+        .input-group input[type="number"],
+        .input-group select {
+            width: 500px; /* Set a fixed width for input fields */
+            height: 30px;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            margin-bottom: 10px; /* Add space between input fields */
+        }
+
+        /* Styles for form elements */
+        select, input[type="text"], input[type="number"] {
+            width: 500px;
+            padding: 3px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            height: 30px;
+        }
+
+        /* Buttons */
+        button {
+            padding: 10px 15px;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            font-size: 14px;
+            margin-right: 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Hide the additional inputs by default */
+        .additional-inputs {
+            display: none;
+        }
+
+        /* Show the additional inputs when the container is visible */
+        .additional-inputs.show {
+            display: block;
+        }
+
+        /* Container for buttons */
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Popup for submission display */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .popup-btn {
+            padding: 8px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="h1">Budget Outsourcing</h1>
+
+    <div>
+        <select id="inventory-select" onchange="showInventoryFields()">
+            <option value="">Select an Inventory Option</option>
+            <option value="dgps">DGPS</option>
+            <option value="drone">Drone</option>
+            <option value="harddisk">Hard Disk</option>
+        </select>
+    </div>
+
+    <div id="inventory-fields-container" class="additional-inputs">
+        <!-- Inputs will be dynamically added here -->
+            <div id="uom-group" class="input-group">
+        <label for="uom">UOM:</label>
+        <select id="uom" name="uom">
+            <option value="">Select UOM</option>
+            <option value="km">Kilometers (km)</option>
+            <option value="lumpsum">Lump Sum</option>
+            <option value="days">Days</option>
+            <option value="no">Number (No)</option>
+            <option value="percentage">Percentage (%)</option>
+        </select>
+    </div>
+
+        <div id="qty-group" class="input-group">
+            <label for="qty">QTY:</label>
+            <input type="number" id="qty" name="qty">
+        </div>
+        <div id="unit-cost-group" class="input-group">
+            <label for="unit_cost">Unit Cost:</label>
+            <input type="number" id="unit_cost" name="unit_cost">
+        </div>
+        <div id="cost-breakup-group" class="input-group">
+            <label for="cost_breakup">Cost Breakup:</label>
+            <input type="number" id="cost_breakup" name="cost_breakup">
+        </div>
+        <div id="remarks-group" class="input-group">
+            <label for="remarks">Remarks:</label>
+            <input type="text" id="remarks" name="remarks">
+        </div>
+    </div>
+        <!-- Add other input fields as needed -->
+        <div id="operation-budget-group" class="input-group">
+            <label for="total_operation_budget_input">Total Operation Budget:</label>
+            <input type="number" id="total_operation_budget_input" name="total_operation_budget_input">
+        </div>
+        <div id="contingency-group" class="input-group">
+            <label for="contingency_input">Contingency:</label>
+            <input type="number" id="contingency_input" name="contingency_input">
+        </div>
+        <div id="margin-group" class="input-group">
+            <label for="margin_input">Margin:</label>
+            <input type="number" id="margin_input" name="margin_input">
+        </div>
+        <div id="total-project-cost-group" class="input-group">
+            <label for="total_project_cost_input">Total Project Cost:</label>
+            <input type="number" id="total_project_cost_input" name="total_project_cost_input">
+        </div>
+        <div id="gst-group" class="input-group">
+            <label for="gst_input">GST:</label>
+            <input type="number" id="gst_input" name="gst_input">
+        </div>
+        <div id="project-cost-gst-group" class="input-group">
+            <label for="project_cost_gst_input">Project Cost GST:</label>
+            <input type="number" id="project_cost_gst_input" name="project_cost_gst_input">
+        </div>
+        <div id="unit-rate-group" class="input-group">
+            <label for="unit_cost_input">Unit Rate:</label>
+            <input type="number" id="unit_cost_input" name="unit_cost_input">
+        </div>
+    </div>
+
+    <!-- Submit and Reset buttons -->
+    <div class="button-container">
+        <button class="submit-btn" onclick="submitForm()">Submit</button>
+        <button class="reset-btn" onclick="resetForm()">Reset</button>
+    </div>
+
+    <!-- Popup for submission display -->
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">
+            <p id="submission-info"></p>
+            <button class="popup-btn" onclick="closePopup()">OK</button>
+        </div>
+    </div>
+
+    <script>
+        function showInventoryFields() {
+            var inventorySelect = document.getElementById("inventory-select");
+            var selectedOption = inventorySelect.value;
+            var additionalInputsContainer = document.getElementById("inventory-fields-container");
+
+            if (selectedOption === "dgps" || selectedOption === "drone" || selectedOption === "harddisk") {
+                // Show the additional inputs for the selected inventory option
+                additionalInputsContainer.classList.add("show");
+            } else {
+                // Hide the additional inputs if no specific option is selected
+                additionalInputsContainer.classList.remove("show");
+            }
+        }
+
+      
+        function submitForm() {
+            // Get input values
+            var uomValue = document.getElementById("uom").value;
+            var qtyValue = document.getElementById("qty").value;
+            var unitCostValue = document.getElementById("unit_cost").value;
+            var costBreakupValue = document.getElementById("cost_breakup").value;
+            var remarksValue = document.getElementById("remarks").value;
+            
+            var totalOperationBudget = document.getElementById("total_operation_budget_input").value;
+            var contingency = document.getElementById("contingency_input").value;
+            var margin = document.getElementById("margin_input").value;
+            var totalProjectCost = document.getElementById("total_project_cost_input").value;
+            var gst = document.getElementById("gst_input").value;
+            var projectCostGST = document.getElementById("project_cost_gst_input").value;
+            var unitRate = document.getElementById("unit_cost_input").value;
+            
+            var submissionMessage = "";
+            var inventorySelect = document.getElementById("inventory-select");
+            var selectedOption = inventorySelect.options[inventorySelect.selectedIndex].text;
+            submissionMessage += `Selected Option Description: ${selectedOption}\n`;
+            
+            // Include input values in the submission message
+            submissionMessage += `UOM: ${uomValue}\n`;
+            submissionMessage += `Qty: ${qtyValue}\n`;
+            submissionMessage += `Unit Cost: ${unitCostValue}\n`;
+            submissionMessage += `Cost Breakup: ${costBreakupValue}\n`;
+            submissionMessage += `Remarks: ${remarksValue}\n\n`;
+            
+           
+            submissionMessage += `Total Operation Budget: ${totalOperationBudget}\n`;
+            submissionMessage += `Contingency: ${contingency}\n`;
+            submissionMessage += `Margin: ${margin}\n`;
+            submissionMessage += `Total Project Cost: ${totalProjectCost}\n`;
+            submissionMessage += `GST: ${gst}\n`;
+            submissionMessage += `Project Cost GST: ${projectCostGST}\n`;
+            submissionMessage += `Unit Rate: ${unitRate}\n`;
+
+            // Get the selected option's description
+            
+
+            // Display the submission message in an alert
+            alert(submissionMessage);
+        }
+
+        // Other JavaScript functions if needed
+    
+        function resetForm() {
+            document.getElementById("popup").style.display = "none";
+
+            // Reset all input values
+            var inputs = document.querySelectorAll("input[type='text'], input[type='number']");
+            inputs.forEach(input => {
+                input.value = "";
+            });
+
+            // Reset the select option
+            document.getElementById("inventory-select").selectedIndex = 0;
+
+            // Hide the additional inputs
+            document.getElementById("inventory-fields-container").classList.remove("show");
+        }
+    </script>
+</body>
+</html>
