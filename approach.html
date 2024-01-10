@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #e0e0e0;
+        }
+ 
+        form {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 20px;
+        }
+ 
+        h1 {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+ 
+        h2 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+ 
+        label {
+            display: block;
+            margin-bottom: 8px;
+            text-align: left;
+            width: 30%;
+        }
+ 
+        input,
+        select {
+            width: 30%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            display: inline-block;
+        }
+ 
+        hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 20px 0;
+            width: 30%;
+        }
+ 
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+ 
+        .input-container label {
+            flex: 1;
+            margin-right: 10px;
+        }
+ 
+        .input-container input {
+            flex: 1;
+        }
+ 
+        button {
+            width: 30%;
+            padding: 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+ 
+        button[type="reset"] {
+            background-color: #f44336;
+            margin-left: 2%;
+        }
+</style>
+<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-firestore.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+     apiKey: "AIzaSyA7_x5uO_e9TtVgZafkjLVn0V_zPWRdIek",
+    authDomain: "webdevelopmentdrogo.firebaseapp.com",
+    projectId: "webdevelopmentdrogo",
+    storageBucket: "webdevelopmentdrogo.appspot.com",
+    messagingSenderId: "296004500378",
+    appId: "1:296004500378:web:1911ad5649366c406d1823",
+    measurementId: "G-J9FPQS545R"
+  };
+  
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  var db = firebase.firestore();
+</script>
+
+</head>
+<body>
+ 
+<form action="/submit" method="post">
+<h1>Project Information</h1>
+<label for="project_code">Project Code:</label>
+<input type="text" name="project_code" required>
+ 
+    <label for="project_name">Project Name:</label>
+<input type="text" name="project_name" required>
+ 
+    
+ 
+    <!-- Drone Section -->
+<h2>Drone Section</h2>
+<label for="area">Area:</label>
+<input type="text" name="area" required>
+ 
+    <label for="drone_fly_area">Drone Fly Area per Flight:</label>
+<input type="text" name="drone_fly_area" required>
+ 
+    <label for="flights_per_day">No of Flights per Drone per Day:</label>
+<input type="number" name="flights_per_day" required>
+ 
+    <label for="area_per_day">Drone Fly Area per Day in km:</label>
+<input type="text" name="area_per_day" required>
+ 
+    <label for="teams_required">No of Drone Teams Required:</label>
+<input type="number" name="teams_required" required>
+ 
+    <label for="members_required">No of Members Required:</label>
+<input type="number" name="members_required" required>
+ 
+    <label for="days_to_complete">No of Days to Complete the Project:</label>
+<input type="number" name="days_to_complete" required>
+ 
+    <label for="actual_area">Actual Area Required to Drone Survey:</label>
+<input type="text" name="actual_area" required>
+ 
+    
+ 
+    <!-- DGPS RTK Section -->
+<h2>DGPS RTK Section</h2>
+<label for="dgps_rtk_points_per_km">No of DGPS points per km:</label>
+<input type="number" name="dgps_rtk_points_per_km" required>
+ 
+    <label for="dgps_rtk_points_required">No of DGPS Points Required:</label>
+<input type="number" name="dgps_rtk_points_required" required>
+ 
+    <label for="dgps_rtk_points_covered_per_day">No of DGPS Points covered in 1 day:</label>
+<input type="number" name="dgps_rtk_points_covered_per_day" required>
+ 
+    <label for="dgps_rtk_days_required">No of days required to complete RTK points:</label>
+<input type="number" name="dgps_rtk_days_required" required>
+ 
+    <label for="dgps_rtk_teams_required">No of DGPS Teams Required:</label>
+<input type="number" name="dgps_rtk_teams_required" required>
+ 
+    <label for="dgps_rtk_members_required">No of DGPS Members Required:</label>
+<input type="number" name="dgps_rtk_members_required" required>
+ 
+    <hr>
+ 
+    <!-- DGPS Static Section -->
+<h2>DGPS Static Section</h2>
+<label for="dgps_static_points_per_km">No of DGPS Static points per km:</label>
+<input type="number" name="dgps_static_points_per_km" required>
+ 
+    <label for="dgps_static_points_required">No of DGPS Static Points Required:</label>
+<input type="number" name="dgps_static_points_required" required>
+ 
+    <label for="dgps_static_points_covered_per_day">No of DGPS Static Points covered in 1 day:</label>
+<input type="number" name="dgps_static_points_covered_per_day" required>
+ 
+    <label for="dgps_static_days_required">No of days required to complete Static points:</label>
+<input type="number" name="dgps_static_days_required" required>
+ 
+    <label for="dgps_static_teams_required">No of DGPS Static Teams Required:</label>
+<input type="number" name="dgps_static_teams_required" required>
+ 
+    <label for="dgps_static_members_required">No of DGPS Static Members Required:</label>
+<input type="number" name="dgps_static_members_required" required>
+ 
+    <hr>
+ 
+    <button type="submit">Submit</button>
+<button type="reset">Reset</button>
+</form>
+<script>
+  document.getElementById('myForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // Collect form data
+    var formData = {};
+    var elements = this.elements;
+
+    for (var i = 0; i < elements.length; i++) {
+      var element = elements[i];
+      if (element.type !== 'submit' && element.type !== 'reset') {
+        formData[element.name] = element.value;
+      }
+    }
+
+    // Store form data in Firestore
+    db.collection('projects').add(formData)
+      .then(function (docRef) {
+        console.log("Document written with ID: ", docRef.id);
+        // Optionally, you can redirect the user or show a success message here.
+      })
+      .catch(function (error) {
+        console.error("Error adding document: ", error);
+        // Handle errors if needed.
+      });
+  });
+</script>
+
+ 
+</body>
+</html>
