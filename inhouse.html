@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-House Operations</title>
+    <style>
+         body {
+            background-color: ghostwhite; 
+            margin: 0; /* Remove default margin */
+            font-family: Arial, sans-serif; /* Use a common font for better readability */
+        }
+        /* Styles for the input fields */
+        .input-group {
+            display: none; /* Initially hide input fields */
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .show {
+            display: block; /* Show input fields */
+        }
+
+        /* Adjust the size of the dropdown */
+        #category-select, .description-select {
+            height: 50px;
+            width: 350px; /* Increase the width as needed */
+            margin-bottom: 20px; /* Add space between dropdown and input fields */
+            border: 1px solid #ccc; /* Add border */
+            padding: 5px; /* Add padding */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+
+        /* Adjust the size of input fields */
+        .input-group label {
+            width: 100px; /* Increase the width of labels */
+            display: inline-block; /* Allow labels to have a fixed width */
+        }
+
+        .input-group select, .input-group input {
+            width: 500px;
+            height: 30px;
+            /* Adjust the width of input fields */
+            /* Increase or decrease width as needed */
+        }
+
+        /* Adjust space between buttons */
+        button {
+            padding: 10px 15px; /* Increase the padding for larger buttons */
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            font-size: 14px; /* Increase the font size for larger buttons */
+            margin: 4px 2px;
+            cursor: pointer;
+            margin-right: 20px; /* Add space between buttons */
+        }
+
+        .h1 {
+            text-align: center;
+            font-size: 25px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="h1">Budget In-house</h1>
+
+    <div>
+        <select id="category-select" onchange="showInputGroup()">
+            <option value="">Select a Category</option>
+            <option value="outsourced_vendor">Outsourced Vendor</option>
+            <option value="dgps_team">DGPS Team</option>
+            <option value="drone_team">Drone Team</option>
+            <option value="hr_cost">HR Cost</option>
+        </select>
+    </div>
+
+    <div id="input-fields-container">
+        <!-- Inputs will be dynamically added here -->
+    </div>
+
+    <button onclick="submitForm()">Submit</button>
+    <button onclick="resetForm()">Reset</button>
+
+    <script>
+        function showInputGroup() {
+            var selectedCategory = document.getElementById("category-select").value;
+            var inputFieldsContainer = document.getElementById("input-fields-container");
+            inputFieldsContainer.innerHTML = ""; // Clear previous input fields
+
+            switch (selectedCategory) {
+                case "outsourced_vendor":
+                    inputFieldsContainer.innerHTML = `
+                        <div id="description-group" class="input-group">
+                            <label for="description">Description:</label>
+                            <select id="description" class="description-select" name="description">
+                                <option value="">Select a Description</option>
+                                <option value="DGPS Vendor">DGPS Vendor</option>
+                                <option value="DA Vendor">DA Vendor</option>
+                                <option value="Video Editing">Video Editing</option>
+                            </select>
+                        </div>
+                                                    <div id="uom-group" class="input-group">
+    <label for="uom">UOM:</label>
+    <select id="uom" name="uom">
+        <option value="">Select UOM</option>
+        <option value="km">Kilometers (km)</option>
+        <option value="lumpsum">Lump Sum</option>
+        <option value="days">Days</option>
+        <option value="no">Number (No)</option>
+        <option value="percentage">Percentage (%)</option>
+    </select>
+</div>
+                        
+                        <div id="qty-group" class="input-group">
+                            <label for="qty">QTY:</label>
+                            <input type="number" id="qty" name="qty">
+                        </div>
+                        <div id="unit-cost-group" class="input-group">
+                            <label for="unit_cost">Unit Cost:</label>
+                            <input type="number" id="unit_cost" name="unit_cost">
+                        </div>
+                        <div id="cost-breakup-group" class="input-group">
+                            <label for="cost_breakup">Cost Breakup:</label>
+                            <input type="number" id="cost_breakup" name="cost_breakup">
+                        </div>
+                        <div id="remarks-group" class="input-group">
+                            <label for="remarks">Remarks:</label>
+                            <input type="text" id="remarks" name="remarks">
+                        </div>
+                        <!-- Add other input fields as needed -->
+                    `;
+                    break;
+
+                case "dgps_team":
+                    inputFieldsContainer.innerHTML = `
+                        <div id="description-group" class="input-group">
+                            <label for="description">Description:</label>
+                            <select id="description" class="description-select" name="description">
+                                <option value="">Select a Description</option>
+                                <option value="Mobilization (T1)">Mobilization (T1)</option>
+                                <option value="De-Mobilization (T1)">De-Mobilization (T1)</option>
+                                <option value="DA (T1)">DA (T1)</option>
+                                <option value="Local Conveyance">Local Conveyance (T1)</option>
+                                <option value="Accommodation(T1)">Accommodation (T1)</option>
+                                <option value="Luggage Fare (T1)">Luggage Fare (T1)</option>
+                            </select>
+                        </div>
+                                                    <div id="uom-group" class="input-group">
+    <label for="uom">UOM:</label>
+    <select id="uom" name="uom">
+        <option value="">Select UOM</option>
+        <option value="km">Kilometers (km)</option>
+        <option value="lumpsum">Lump Sum</option>
+        <option value="days">Days</option>
+        <option value="no">Number (No)</option>
+        <option value="percentage">Percentage (%)</option>
+    </select>
+</div>
+                        
+                        <div id="qty-group" class="input-group">
+                            <label for="qty">QTY:</label>
+                            <input type="number" id="qty" name="qty">
+                        </div>
+                        <div id="unit-cost-group" class="input-group">
+                            <label for="unit_cost">Unit Cost:</label>
+                            <input type="number" id="unit_cost" name="unit_cost">
+                        </div>
+                        <div id="cost-breakup-group" class="input-group">
+                            <label for="cost_breakup">Cost Breakup:</label>
+                            <input type="number" id="cost_breakup" name="cost_breakup">
+                        </div>
+                        <div id="remarks-group" class="input-group">
+                            <label for="remarks">Remarks:</label>
+                            <input type="text" id="remarks" name="remarks">
+                        </div>
+                        <!-- Add other input fields as needed -->
+                    `;
+                    break;
+
+                case "drone_team":
+                    inputFieldsContainer.innerHTML = `
+                        <div id="description-group" class="input-group">
+                            <label for="description">Description:</label>
+                            <select id="description" class="description-select" name="description">
+                                <option value="">Select a Description</option>
+                                <option value="Mobilization (T1)">Mobilization (T1)</option>
+                                <option value="De-Mobilization (T1)">De-Mobilization (T1)</option>
+                                <option value="DA (T1)">DA (T1)</option>
+                                <option value="Local Conveyance">Local Conveyance (T1)</option>
+                                <option value="Accommodation(T1)">Accommodation (T1)</option>
+                                <option value="Luggage Fare (T1)">Luggage Fare (T1)</option>
+                            </select></div>
+                                                        <div id="uom-group" class="input-group">
+    <label for="uom">UOM:</label>
+    <select id="uom" name="uom">
+        <option value="">Select UOM</option>
+        <option value="km">Kilometers (km)</option>
+        <option value="lumpsum">Lump Sum</option>
+        <option value="days">Days</option>
+        <option value="no">Number (No)</option>
+        <option value="percentage">Percentage (%)</option>
+    </select>
+</div>
+                        
+                        <div id="qty-group" class="input-group">
+                            <label for="qty">QTY:</label>
+                            <input type="number" id="qty" name="qty">
+                        </div>
+                        <div id="unit-cost-group" class="input-group">
+                            <label for="unit_cost">Unit Cost:</label>
+                            <input type="number" id="unit_cost" name="unit_cost">
+                        </div>
+                        <div id="cost-breakup-group" class="input-group">
+                            <label for="cost_breakup">Cost Breakup:</label>
+                            <input type="number" id="cost_breakup" name="cost_breakup">
+                        </div>
+                        <div id="remarks-group" class="input-group">
+                            <label for="remarks">Remarks:</label>
+                            <input type="text" id="remarks" name="remarks">
+                        </div>
+                        <!-- Add other input fields as needed -->
+                    `;
+                    break;
+
+                case "hr_cost":
+                    inputFieldsContainer.innerHTML = `
+                        <div id="description-group" class="input-group">
+                            <label for="description">Description:</label>
+                            <select id="description" class="description-select" name="description">
+                                <option value="">Select a Description</option>
+                                <option value="DGPS Surveyor1">DGPS Surveyor1</option>
+                                <option value="Asst DGPS1">Asst DGPS1</option>
+                                <option value="PILOT1">PILOT1</option>
+                                <option value="CAD Expert">CAD Expert</option>
+                                <option value="Assistant GIS Expert">Assistant GIS Expert</option>
+                                <option value="GIS Analyst">GIS Analyst</option>
+                                <option value="QA/QC Processing Expert">QA/QC Processing</option>
+                                <option value="Project Coordinator">Project Coordinator</option>
+                                <option value="GENERAL ADMIN">GENERAL ADMIN</option>
+                                <option value="project submission/Client visit">CAD Expert</option>
+                            </select>
+                            </div>
+                                                        <div id="uom-group" class="input-group">
+    <label for="uom">UOM:</label>
+    <select id="uom" name="uom">
+        <option value="">Select UOM</option>
+        <option value="km">Kilometers (km)</option>
+        <option value="lumpsum">Lump Sum</option>
+        <option value="days">Days</option>
+        <option value="no">Number (No)</option>
+        <option value="percentage">Percentage (%)</option>
+    </select>
+</div>
+
+                        
+                        <div id="qty-group" class="input-group">
+                            <label for="qty">QTY:</label>
+                            <input type="number" id="qty" name="qty">
+                        </div>
+                        <div id="unit-cost-group" class="input-group">
+                            <label for="unit_cost">Unit Cost:</label>
+                            <input type="number" id="unit_cost" name="unit_cost">
+                        </div>
+                        <div id="cost-breakup-group" class="input-group">
+                            <label for="cost_breakup">Cost Breakup:</label>
+                            <input type="number" id="cost_breakup" name="cost_breakup">
+                        </div>
+                        <div id="remarks-group" class="input-group">
+                            <label for="remarks">Remarks:</label>
+                            <input type="text" id="remarks" name="remarks">
+                        </div>
+                        <!-- Add other input fields as needed -->
+                    `;
+                    break;
+
+                default:
+                    break;
+            }
+            document.querySelectorAll('.input-group').forEach(function(element) {
+                element.classList.add('show');
+            });
+        }
+
+        function submitForm() {
+            var selectedCategory = document.getElementById("category-select").value;
+            var descriptionElement = document.getElementById("description");
+            var uomValue = document.getElementById("uom").value;
+            var qtyValue = document.getElementById("qty").value;
+            var unitCostValue = document.getElementById("unit_cost").value;
+            var costBreakupValue = document.getElementById("cost_breakup").value;
+            var remarksValue = document.getElementById("remarks").value;
+
+            var submissionMessage = `Category: ${selectedCategory}\n`;
+
+            switch (selectedCategory) {
+                case "outsourced_vendor":
+                    submissionMessage += `Description: ${descriptionElement.options[descriptionElement.selectedIndex].text}\n`;
+                    break;
+
+                case "dgps_team":
+                case "drone_team":
+                    submissionMessage += `Description: ${descriptionElement.options[descriptionElement.selectedIndex].text}\n`;
+                    break;
+
+                case "hr_cost":
+                    submissionMessage += `Description: ${descriptionElement.options[descriptionElement.selectedIndex].text}\n`;
+                    break;
+
+                default:
+                    break;
+            }
+
+            submissionMessage += `UOM: ${uomValue}\nQTY: ${qtyValue}\nUnit Cost: ${unitCostValue}\nCost Breakup: ${costBreakupValue}\nRemarks: ${remarksValue}`;
+
+            alert(submissionMessage);
+        }
+
+        function resetForm() {
+            document.getElementById("category-select").value = "";
+            document.querySelectorAll('.input-group').forEach(function(element) {
+                element.classList.remove('show');
+            });
+
+            document.querySelectorAll('.input-group select, .input-group input').forEach(function(element) {
+                element.value = '';
+            });
+        }
+    </script>
+</body>
+</html>
